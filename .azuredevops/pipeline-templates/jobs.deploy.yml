@@ -1,17 +1,14 @@
   parameters:
   - name: environment
     type: string
-  - name: appName
-    type: string
-  - name: resourceGroupName
+  - name: workloadName
     type: string
 
   jobs:
   - template: /.azuredevops/pipeline-templates/jobs.deployInfra.yml
     parameters:
-      appName: func-${{ parameters.appName }}-${{ parameters.environment }}
+      workloadName: ${{ parameters.workloadName }}
       environment: ${{ parameters.environment }}
-      resourceGroupName: ${{ parameters.resourceGroupName }}
       templateFilePath: $(Pipeline.Workspace)/$(artifactName)/main.bicep
       templateParameterFilePath: $(Build.SourcesDirectory)/deploy/parameters.${{ parameters.environment }}.json
 

@@ -1,4 +1,3 @@
 variables:
   environmentName: "prd"
-  resourceGroupName: "azplatform-rg"
   azureServiceConnection: "AzureSamples"

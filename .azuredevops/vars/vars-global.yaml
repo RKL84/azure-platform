@@ -1,4 +1,5 @@
 variables:
  appName: "azplatform"
  location: "australiasoutheast"
- artifactName: 'bicep-files'            # Name of the pipeline artifact to be created and deployed
+ artifactName: 'bicep-files'     # Name of the pipeline artifact to be created and deployed
+ workloadName: 'az04'

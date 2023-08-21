@@ -40,17 +40,45 @@ stages:
         parameters:
           templateFilePath: $(Build.SourcesDirectory)/deploy
 
-  - stage: 'Prd'
-    displayName: 'Deploy to the prd environment'
+  - stage: 'Dev'
+    displayName: 'Deploy to the dev environment'
     variables:          
-      - template: vars/vars-prd.yaml
+      - template: vars/vars-dev.yaml
     dependsOn: Build
-    condition: |
-      succeeded()
+    # condition: |
+    #   and
+    #   (
+    #     succeeded(),
+    #     eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
+    #   )
 
     jobs:
     - template: /.azuredevops/pipeline-templates/jobs.deploy.yml
       parameters:
-        environment: 'prd'
-        appName: $(appName)
-        resourceGroupName: $(resourceGroupName)
+        environment: 'dev'
+        workloadName: $(workloadName)
+
+  # - stage: 'QA'
+  #   displayName: 'Deploy to the qa environment'
+  #   variables:          
+  #     - template: vars/vars-qa.yaml
+  #   dependsOn: Dev
+  #   jobs:
+  #   - template: /.azuredevops/pipeline-templates/jobs.deploy.yml
+  #     parameters:
+  #       environment: 'qa'
+  #       workloadName: $(workloadName)
+
+  # - stage: 'Prd'
+  #   displayName: 'Deploy to the prd environment'
+  #   variables:          
+  #     - template: vars/vars-prd.yaml
+  #   dependsOn: Build
+  #   condition: |
+  #     succeeded()
+
+  #   jobs:
+  #   - template: /.azuredevops/pipeline-templates/jobs.deploy.yml
+  #     parameters:
+  #       environment: 'prd'
+  #       workloadName: $(workloadName)
