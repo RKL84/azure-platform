@@ -12,7 +12,7 @@
       appName: func-${{ parameters.appName }}-${{ parameters.environment }}
       environment: ${{ parameters.environment }}
       resourceGroupName: ${{ parameters.resourceGroupName }}
-      templateFilePath: $(Pipeline.Workspace)/Bicep/main.bicep
+      templateFilePath: $(Pipeline.Workspace)/$(artifactName)/main.bicep
       templateParameterFilePath: $(Build.SourcesDirectory)/deploy/parameters.${{ parameters.environment }}.json
 
   # - template: /.azuredevops/pipeline-templates/jobs.deployFunctionApp.yml
