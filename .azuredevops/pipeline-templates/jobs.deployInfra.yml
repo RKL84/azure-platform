@@ -41,11 +41,11 @@
             displayName: Download template
           - task: AzureCLI@2
             inputs:
-              azureSubscription: $(serviceConnection)
+              azureSubscription: ${{ parameters.serviceConnection }}
               scriptType: 'pscore'
               scriptLocation: 'inlineScript'
               inlineScript: |
-               echo "using serviceconnection :" $(serviceConnection)
+               echo "using serviceconnection :" ${{ parameters.serviceConnection }}
                az deployment sub create --location $(location) --name $(deploymentName) --template-file $(Pipeline.Workspace)/$(artifactName)/main.bicep --parameters workloadName=$(workloadName) environment=$(environment)
 
           # - task: PowerShell@2
