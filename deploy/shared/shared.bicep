@@ -11,7 +11,7 @@ param tags object = {}
 
 var resourceNames = {
   keyVault: naming.keyVault.nameUnique
-  storage: naming.storage.nameUnique
+  storage: naming.storageAccount.nameUnique
   applicationInsights: naming.applicationInsights.name
   logAnalyticsWorkspace: naming.logAnalyticsWorkspace.name
 }
