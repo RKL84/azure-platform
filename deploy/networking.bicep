@@ -245,7 +245,7 @@ resource bastionNSG 'Microsoft.Network/networkSecurityGroups@2020-06-01' = {
 }
 
 resource devOpsNSG 'Microsoft.Network/networkSecurityGroups@2020-06-01' = {
-  name: resourceNames.bastionSNNSG
+  name: resourceNames.devOpsSNNSG
   location: location
   properties: {
     securityRules: []
