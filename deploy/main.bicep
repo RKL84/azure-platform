@@ -84,3 +84,13 @@ module shared './shared/shared.bicep' = {
     tags: defaultTags
   }
 }
+
+module appServicePlan './ase.bicep' = {
+  name: 'appservicePlan-Deployment'
+  scope: resourceGroup(backendRG.name)
+  params: {
+    location: location
+    naming: naming.outputs.names
+    tags: defaultTags
+  }
+}
