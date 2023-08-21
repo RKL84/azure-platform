@@ -33,5 +33,8 @@
           csmParametersFile: ${{ parameters.templateParameterFilePath }}
           overrideParameters: -appName $(appName)
         
-      # - publish: '$(Build.ArtifactStagingDirectory)/main.json'
-      #   artifact: Bicep
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(Pipeline.Workspace)/s/deployment/bicep'
+          artifact: $(artifactName)
+          publishLocation: 'pipeline'
