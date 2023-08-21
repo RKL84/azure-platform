@@ -32,6 +32,6 @@
           csmFile: ${{ parameters.bicepTemplateFilePath}}
           csmParametersFile: ${{ parameters.templateParameterFilePath }}
           overrideParameters: -appName $(appName)
-          
-      - publish: '$(Build.ArtifactStagingDirectory)/main.json'
-        artifact: Bicep
+        
+      # - publish: '$(Build.ArtifactStagingDirectory)/main.json'
+      #   artifact: Bicep
