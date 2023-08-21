@@ -9,19 +9,14 @@ param name string
 @description('Optional. The tags to be assigned to the created resources.')
 param tags object = {}
 
-resource keyVaultModule 'Microsoft.KeyVault/vaults@2019-09-01' = {
+resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: name
   location: location
   tags: tags
-  properties: {
-    tenantId: subscription().tenantId
-    sku: {
-      family: 'A'
-      name: 'standard'
-    }
-    enabledForTemplateDeployment: true // ARM is permitted to retrieve secrets from the key vault. 
-    accessPolicies: []
+  sku: {
+    name: 'Standard_LRS'
   }
+  kind: 'StorageV2'
 }
 
-output keyVaultName string = keyVaultModule.name
+output storageAccountName string = storageAccount.name

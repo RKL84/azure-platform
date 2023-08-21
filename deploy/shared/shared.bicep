@@ -11,8 +11,18 @@ param tags object = {}
 
 var resourceNames = {
   keyVault: naming.keyVault.nameUnique
+  storage: naming.storage.nameUnique
   applicationInsights: naming.applicationInsights.name
   logAnalyticsWorkspace: naming.logAnalyticsWorkspace.name
+}
+
+module storageModule './storage.bicep' = {
+  name: 'storage-Deployment'
+  params: {
+    location: location
+    name: resourceNames.storage
+    tags: tags
+  }
 }
 
 module keyVaultModule './keyVault.bicep' = {
@@ -25,3 +35,4 @@ module keyVaultModule './keyVault.bicep' = {
 }
 
 output keyVaultName string = keyVaultModule.name
+output storageAccountName string = storageModule.name
