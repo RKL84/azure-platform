@@ -3,7 +3,7 @@
     type: string
   - name: templateParameterFilePath
     type: string
-  - name: appName
+  - name: workloadName
     type: string
   - name: serviceConnection
     type: string
@@ -12,6 +12,8 @@
     type: string
     default: '$(location)'
   - name: environment
+    type: string
+  - name: deploymentName
     type: string
   # - name: poolName
   #   type: string
