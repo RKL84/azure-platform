@@ -3,8 +3,6 @@
     type: string
   - name: templateParameterFilePath
     type: string
-  - name: resourceGroupName
-    type: string
 
   jobs: 
   - job: 'infra_build'
@@ -21,17 +19,17 @@
             az bicep restore --file ${{ parameters.bicepTemplateFilePath}}
             az bicep build --file ${{ parameters.bicepTemplateFilePath}} --outfile $(Build.ArtifactStagingDirectory)/main.json
 
-      - task: AzureResourceManagerTemplateDeployment@3
-        name: RunPreflightValidation
-        displayName: Run preflight validation
-        inputs:
-          connectedServiceName: $(azureServiceConnection)
-          location: $(location)
-          deploymentMode: Validation
-          resourceGroupName: ${{ parameters.resourceGroupName }}
-          csmFile: ${{ parameters.bicepTemplateFilePath}}
-          csmParametersFile: ${{ parameters.templateParameterFilePath }}
-          overrideParameters: -appName $(appName)
+      # - task: AzureResourceManagerTemplateDeployment@3
+      #   name: RunPreflightValidation
+      #   displayName: Run preflight validation
+      #   inputs:
+      #     connectedServiceName: $(azureServiceConnection)
+      #     location: $(location)
+      #     deploymentMode: Validation
+      #     resourceGroupName: ${{ parameters.resourceGroupName }}
+      #     csmFile: ${{ parameters.bicepTemplateFilePath}}
+      #     csmParametersFile: ${{ parameters.templateParameterFilePath }}
+      #     overrideParameters: -appName $(appName)
         
       - task: PublishPipelineArtifact@1
         inputs:

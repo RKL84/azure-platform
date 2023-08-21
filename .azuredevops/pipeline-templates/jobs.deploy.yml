@@ -3,6 +3,8 @@
     type: string
   - name: workloadName
     type: string
+  - name: deploymentName
+    type: string
 
   jobs:
   - template: /.azuredevops/pipeline-templates/jobs.deployInfra.yml
@@ -11,6 +13,7 @@
       environment: ${{ parameters.environment }}
       templateFilePath: $(Pipeline.Workspace)/$(artifactName)/main.bicep
       templateParameterFilePath: $(Build.SourcesDirectory)/deploy/parameters.${{ parameters.environment }}.json
+      deploymentName: ${{ parameters.deploymentName }}
 
   # - template: /.azuredevops/pipeline-templates/jobs.deployFunctionApp.yml
   #   parameters:
