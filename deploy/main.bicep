@@ -75,6 +75,16 @@ resource apimRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   tags: defaultTags
 }
 
+module networking './networking.bicep' = {
+  name: 'networkingresources'
+  scope: resourceGroup(networkingRG.name)
+  params: {
+    location: location
+    naming: naming.outputs.names
+    tags: defaultTags
+  }
+}
+
 module shared './shared/shared.bicep' = {
   name: 'sharedresources-Deployment'
   scope: resourceGroup(sharedRG.name)
