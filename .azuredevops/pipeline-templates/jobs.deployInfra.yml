@@ -37,6 +37,7 @@
           - checkout: self
             fetchDepth: 0
           - download: current
+            artifact: $(artifactName)
             displayName: Download template
 
           - task: PowerShell@2
