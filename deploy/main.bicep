@@ -80,7 +80,7 @@ module shared './shared/shared.bicep' = {
   scope: resourceGroup(sharedRG.name)
   params: {
     location: location
-    naming: naming
+    naming: naming.outputs.names
     tags: defaultTags
   }
 }
