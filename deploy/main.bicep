@@ -94,3 +94,16 @@ module appServicePlan './ase.bicep' = {
     tags: defaultTags
   }
 }
+
+module apim './apim.bicep' = {
+  name: 'appservicePlan-Deployment'
+  scope: resourceGroup(apimRG.name)
+  params: {
+    location: location
+    naming: naming.outputs.names
+    tags: defaultTags
+    appInsightsName: shared.outputs.appInsightsName
+    appInsightsId: shared.outputs.appInsightsId
+    appInsightsInstrumentationKey: shared.outputs.appInsightsInstrumentationKey
+  }
+}
