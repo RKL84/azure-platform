@@ -16,6 +16,16 @@ var resourceNames = {
   logAnalyticsWorkspace: naming.logAnalyticsWorkspace.name
 }
 
+module appInsights './appInsights.bicep' = {
+  name: 'appInsights-Deployment'
+  params: {
+    location: location
+    name: resourceNames.applicationInsights
+    logAnalyticsWorkspaceName: resourceNames.logAnalyticsWorkspace
+    tags: tags
+  }
+}
+
 module storageModule './storage.bicep' = {
   name: 'storage-Deployment'
   params: {
@@ -34,5 +44,9 @@ module keyVaultModule './keyVault.bicep' = {
   }
 }
 
+output appInsightsConnectionString string = appInsights.outputs.appInsightsConnectionString
+output appInsightsName string = appInsights.outputs.appInsightsName
+output appInsightsId string = appInsights.outputs.appInsightsId
+output appInsightsInstrumentationKey string = appInsights.outputs.appInsightsInstrumentationKey
 output keyVaultName string = keyVaultModule.name
 output storageAccountName string = storageModule.name
