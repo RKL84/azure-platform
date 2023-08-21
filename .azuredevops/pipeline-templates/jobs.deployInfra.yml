@@ -3,7 +3,7 @@
     type: string
   - name: templateParameterFilePath
     type: string
-  - name: workloadName
+  - name: appName
     type: string
   - name: serviceConnection
     type: string
@@ -46,7 +46,7 @@
               scriptLocation: 'inlineScript'
               inlineScript: |
                echo "using serviceconnection :" ${{ parameters.serviceConnection }}
-               az deployment sub create --location ${{ parameters.location }} --name ${{ parameters.deploymentName }} --template-file $(Pipeline.Workspace)/$(artifactName)/main.bicep --parameters workloadName=${{ parameters.workloadName }} environment=${{ parameters.environment }}
+               az deployment sub create --location ${{ parameters.location }} --name ${{ parameters.deploymentName }} --template-file $(Pipeline.Workspace)/$(artifactName)/main.bicep --parameters appName=${{ parameters.appName }} environment=${{ parameters.environment }}
 
           # - task: PowerShell@2
           #   displayName: 'Setup agent'

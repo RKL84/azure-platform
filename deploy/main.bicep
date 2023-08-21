@@ -3,7 +3,10 @@ targetScope = 'subscription'
 // Parameters
 @description('A short name for the workload being deployed alphanumberic only')
 @maxLength(8)
-param workloadName string
+param appName string
+
+@description('Optional. A numeric suffix (e.g. "001") to be appended on the naming generated for the resources. Defaults to empty.')
+param numericSuffix string = ''
 
 @description('The environment for which the deployment is being executed')
 @allowed([
@@ -15,40 +18,69 @@ param environment string
 
 param location string = deployment().location
 
-var resourceSuffix = '${workloadName}-${environment}-001'
+@description('Optional. The tags to be assigned to the created resources.')
+param tags object = {}
+
+var defaultTags = union({
+    application: appName
+    environment: environment
+  }, tags)
+
+var resourceSuffix = '${appName}-${environment}'
 var networkingResourceGroupName = 'rg-networking-${resourceSuffix}'
 var sharedResourceGroupName = 'rg-shared-${resourceSuffix}'
 var backendResourceGroupName = 'rg-backend-${resourceSuffix}'
 var apimResourceGroupName = 'rg-apim-${resourceSuffix}'
 
+var defaultSuffixes = [
+  appName
+  environment
+  '**location**'
+]
+var namingSuffixes = empty(numericSuffix) ? defaultSuffixes : concat(defaultSuffixes, [
+    numericSuffix
+  ])
+
+module naming 'modules/naming.module.bicep' = {
+  scope: resourceGroup(sharedRG.name)
+  name: 'namingModule-Deployment'
+  params: {
+    location: location
+    suffix: namingSuffixes
+    uniqueLength: 6
+  }
+}
+
 resource networkingRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: networkingResourceGroupName
   location: location
+  tags: defaultTags
 }
 
 resource backendRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: backendResourceGroupName
   location: location
+  tags: defaultTags
 }
 
 resource sharedRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: sharedResourceGroupName
   location: location
+  tags: defaultTags
 }
 
 resource apimRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: apimResourceGroupName
   location: location
+  tags: defaultTags
 }
 
 module shared './shared/shared.bicep' = {
-  name: 'sharedresources'
+  name: 'sharedresources-Deployment'
   scope: resourceGroup(sharedRG.name)
   params: {
-    environment: environment
     location: location
-    resourceGroupName: sharedRG.name
-    resourceSuffix: resourceSuffix
-    workloadName: workloadName
+    naming: naming
+    tags: defaultTags
   }
 }

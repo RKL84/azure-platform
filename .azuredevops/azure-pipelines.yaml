@@ -55,7 +55,7 @@ stages:
     - template: /.azuredevops/pipeline-templates/jobs.deploy.yml
       parameters:
         environment: 'dev'
-        workloadName: $(workloadName)
+        appName: $(appName)
         deploymentName: $(deploymentName)
 
   # - stage: 'QA'
@@ -67,7 +67,7 @@ stages:
   #   - template: /.azuredevops/pipeline-templates/jobs.deploy.yml
   #     parameters:
   #       environment: 'qa'
-  #       workloadName: $(workloadName)
+  #       appName: $(appName)
 
   # - stage: 'Prd'
   #   displayName: 'Deploy to the prd environment'
@@ -81,4 +81,4 @@ stages:
   #   - template: /.azuredevops/pipeline-templates/jobs.deploy.yml
   #     parameters:
   #       environment: 'prd'
-  #       workloadName: $(workloadName)
+  #       appName: $(appName)
