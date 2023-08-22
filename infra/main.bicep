@@ -120,7 +120,7 @@ module apim './apim.bicep' = {
 
 module backend './backend.bicep' = {
   name: 'backend-Deployment'
-  scope: resourceGroup(apimRG.name)
+  scope: resourceGroup(backendRG.name)
   params: {
     location: location
     naming: naming.outputs.names
