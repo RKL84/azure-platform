@@ -129,5 +129,6 @@ module backend './backend.bicep' = {
     appInsightsName: shared.outputs.appInsightsName
     appServicePlanName: appServicePlan.outputs.appServicePlanName
     storageAccountName: shared.outputs.storageAccountName
+    sharedResourceGroupName: sharedResourceGroupName
   }
 }

@@ -6,11 +6,11 @@ param location string
 @description('Required. Application Insights instance resource name.')
 param name string
 
-@description('Required. Log Analytics workspace instance resource name.')
-param logAnalyticsWorkspaceName string
-
 @description('Optional. The tags to be assigned to the created resources.')
 param tags object = {}
+
+@description('Required. Log Analytics workspace instance resource name.')
+param logAnalyticsWorkspaceName string
 
 // Resources
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-06-01' = {

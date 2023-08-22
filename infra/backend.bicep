@@ -13,13 +13,16 @@ param logAnalyticsWorkspaceName string
 param appInsightsName string
 param storageAccountName string
 param appServicePlanName string
+param sharedResourceGroupName string
 
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-06-01' existing = {
   name: logAnalyticsWorkspaceName
+  scope: resourceGroup(sharedResourceGroupName)
 }
 
 resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
   name: appInsightsName
+  scope: resourceGroup(sharedResourceGroupName)
 }
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2021-03-01' existing = {
@@ -28,6 +31,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2021-03-01' existing = {
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
   name: storageAccountName
+  scope: resourceGroup(sharedResourceGroupName)
 }
 
 var placeholder = '***'
