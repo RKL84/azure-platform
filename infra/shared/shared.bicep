@@ -44,6 +44,7 @@ module keyVaultModule './keyVault.bicep' = {
   }
 }
 
+output logAnalyticsWorkspaceName string = appInsights.outputs.logAnalyticsWorkspaceName
 output appInsightsConnectionString string = appInsights.outputs.appInsightsConnectionString
 output appInsightsName string = appInsights.outputs.appInsightsName
 output appInsightsId string = appInsights.outputs.appInsightsId

@@ -9,9 +9,14 @@ param naming object
 @description('Optional. The tags to be assigned to the created resources.')
 param tags object = {}
 
+param logAnalyticsWorkspaceName string
 param appInsightsName string
 param storageAccountName string
 param appServicePlanName string
+
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-06-01' existing = {
+  name: logAnalyticsWorkspaceName
+}
 
 resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
   name: appInsightsName
@@ -114,5 +119,25 @@ resource provisionTeamsFunctionApp 'Microsoft.Web/sites@2021-02-01' = {
         }
       ]
     }
+  }
+}
+
+resource todoAppDiagnosticSettings 'Microsoft.Insights/diagnosticsettings@2017-05-01-preview' = {
+  name: 'Logging'
+  scope: provisionTeamsFunctionApp
+  properties: {
+    workspaceId: logAnalyticsWorkspace.id
+    logs: [
+      {
+        category: 'FunctionAppLogs'
+        enabled: true
+      }
+    ]
+    metrics: [
+      {
+        category: 'AllMetrics'
+        enabled: true
+      }
+    ]
   }
 }

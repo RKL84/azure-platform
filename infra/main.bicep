@@ -125,6 +125,7 @@ module backend './backend.bicep' = {
     location: location
     naming: naming.outputs.names
     tags: defaultTags
+    logAnalyticsWorkspaceName: shared.outputs.logAnalyticsWorkspaceName
     appInsightsName: shared.outputs.appInsightsName
     appServicePlanName: appServicePlan.outputs.appServicePlanName
     storageAccountName: shared.outputs.storageAccountName

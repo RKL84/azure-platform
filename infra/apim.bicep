@@ -41,14 +41,9 @@ resource apimName_resource 'Microsoft.ApiManagement/service@2020-12-01' = {
     name: skuName
   }
   properties: {
-    // virtualNetworkType: 'Internal'
     publisherEmail: publisherEmail
     publisherName: publisherName
-    // virtualNetworkConfiguration: {
-    //   subnetResourceId: apimSubnetId
-    // }
   }
-
   tags: tags
 }
 
