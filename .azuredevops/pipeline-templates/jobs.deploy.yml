@@ -12,7 +12,7 @@
       appName: ${{ parameters.appName }}
       environment: ${{ parameters.environment }}
       templateFilePath: $(Pipeline.Workspace)/$(artifactName)/main.bicep
-      templateParameterFilePath: $(Build.SourcesDirectory)/deploy/parameters.${{ parameters.environment }}.json
+      templateParameterFilePath: $(Build.SourcesDirectory)/infra/parameters.${{ parameters.environment }}.json
       deploymentName: ${{ parameters.deploymentName }}
 
   # - template: /.azuredevops/pipeline-templates/jobs.deployFunctionApp.yml

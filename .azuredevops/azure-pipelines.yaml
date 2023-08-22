@@ -27,8 +27,8 @@ stages:
     jobs: 
       - template: /.azuredevops/pipeline-templates/jobs.buildInfra.yml
         parameters:
-          bicepTemplateFilePath: $(Build.SourcesDirectory)/deploy/main.bicep
-          templateParameterFilePath: $(Build.SourcesDirectory)/deploy/parameters.dev.json
+          bicepTemplateFilePath: $(Build.SourcesDirectory)/infra/main.bicep
+          templateParameterFilePath: $(Build.SourcesDirectory)/infra/parameters.dev.json
 
   - stage: 'Validation'
     displayName: Static validation
