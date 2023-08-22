@@ -15,7 +15,7 @@
       templateParameterFilePath: $(Build.SourcesDirectory)/infra/parameters.${{ parameters.environment }}.json
       deploymentName: ${{ parameters.deploymentName }}
 
-  # - template: /.azuredevops/pipeline-templates/jobs.deployFunctionApp.yml
-  #   parameters:
-  #     appName: func-${{ parameters.appName }}-${{ parameters.environment }}
-  #     package: '$(Pipeline.Workspace)/FunctionApp/$(buildConfiguration)/*.zip'
+  - template: /.azuredevops/pipeline-templates/jobs.deployFunctionApp.yml
+    parameters:
+      functionAppName: func-todo-az04-${{ parameters.environment }}-ause
+      package: '$(Pipeline.Workspace)/TodoApp/$(buildConfiguration)/*.zip'
