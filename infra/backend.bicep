@@ -38,97 +38,168 @@ var placeholder = '***'
 var funcNameWithPlaceholder = replace(naming.functionApp.name, '${naming.functionApp.slug}-', '${naming.functionApp.slug}-${placeholder}-')
 var todoFunctionAppName = replace(funcNameWithPlaceholder, placeholder, 'todo')
 
-resource provisionTeamsFunctionApp 'Microsoft.Web/sites@2021-02-01' = {
+resource todoFunctionApp 'Microsoft.Web/sites@2018-11-01' = {
   name: todoFunctionAppName
   location: location
-  kind: 'functionapp'
-  identity: {
-    type: 'SystemAssigned'
-    // userAssignedIdentities: {
-    //   '${managedIdentity.id}': {}
-    // }
-  }
   tags: tags
+  kind: 'functionapp,linux'
   properties: {
+    enabled: true
+    // hostNameSslStates: [
+    //   {
+    //     name: sites_funcappAPIMCSBackendMicroServiceA_siteHostname
+    //     sslState: 'Disabled'
+    //     hostType: 'Standard'
+    //   }
+    //   {
+    //     name: sites_funcappAPIMCSBackendMicroServiceA_repositoryHostname
+    //     sslState: 'Disabled'
+    //     hostType: 'Repository'
+    //   }
+    // ]
     serverFarmId: appServicePlan.id
-    // keyVaultReferenceIdentity: managedIdentity.id
-    // httpsOnly: true
-    // virtualNetworkSubnetId: appServiceSubnet.id
+    reserved: true
+    isXenon: false
+    hyperV: false
     siteConfig: {
-      powerShellVersion: '7.2'
+      numberOfWorkers: 1
+      linuxFxVersion: 'dotnet|3.1'
+      alwaysOn: true
+      http20Enabled: false
       appSettings: [
         {
-          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-          value: appInsights.properties.InstrumentationKey
-        }
-        {
-          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-          value: appInsights.properties.ConnectionString
-        }
-        {
-          name: 'ApplicationInsightsAgent_EXTENSION_VERSION'
-          value: '~3'
-        }
-        {
-          name: 'XDT_MicrosoftApplicationInsights_Mode'
-          value: 'Recommended'
-        }
-        // {
-        //   name: 'ServiceBusConnection__fullyQualifiedNamespace'
-        //   value: '${serviceBusNamespace.name}.servicebus.windows.net'
-        // }
-        {
-          name: 'ServiceBusConnection__credential'
-          value: 'managedIdentity'
-        }
-        // {
-        //   name: 'ServiceBusConnection__clientId'
-        //   value: managedIdentity.properties.clientId
-        // }
-        // {
-        //   name: 'AzureAdClientId'
-        //   value: '@Microsoft.KeyVault(VaultName=${keyVault.name};SecretName=${functionAADServicePrincipalClientIdSecretName})'
-        // }
-        // {
-        //   name: 'AzureAdClientSecret'
-        //   value: '@Microsoft.KeyVault(VaultName=${keyVault.name};SecretName=${functionAADServicePrincipalClientSecretSecretName})'
-        // }
-        {
-          name: 'AzureAdTenantId'
-          value: subscription().tenantId
-        }
-        {
           name: 'AzureWebJobsStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccount.listKeys().keys[0].value}'
         }
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccount.listKeys().keys[0].value}'
         }
+        {
+          name: 'FUNCTIONS_EXTENSION_VERSION'
+          value: '~3'
+        }
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'dotnet'
+        }
+        // {
+        //   name: 'WEBSITE_CONTENTOVERVNET'
+        //   value: '1'
+        // }
         {
           name: 'WEBSITE_CONTENTSHARE'
           value: toLower(todoFunctionAppName)
         }
-        {
-          name: 'FUNCTIONS_EXTENSION_VERSION'
-          value: '~4'
-        }
-        {
-          name: 'FUNCTIONS_WORKER_RUNTIME'
-          value: 'powershell'
-        }
-        {
-          name: 'WEBSITE_RUN_FROM_PACKAGE'
-          value: '1'
-        }
+        // {
+        //   name: 'WEBSITE_VNET_ROUTE_ALL'
+        //   value: '1'
+        // }
       ]
     }
+    scmSiteAlsoStopped: false
+    clientAffinityEnabled: false
+    clientCertEnabled: false
+    hostNamesDisabled: false
+    containerSize: 1536
+    dailyMemoryTimeQuota: 0
+    httpsOnly: true
+    redundancyMode: 'None'
   }
+  dependsOn: []
 }
+
+// resource todoFunctionApp 'Microsoft.Web/sites@2021-02-01' = {
+//   name: todoFunctionAppName
+//   location: location
+//   kind: 'functionapp'
+//   identity: {
+//     type: 'SystemAssigned'
+//     // userAssignedIdentities: {
+//     //   '${managedIdentity.id}': {}
+//     // }
+//   }
+//   tags: tags
+//   properties: {
+//     serverFarmId: appServicePlan.id
+//     // keyVaultReferenceIdentity: managedIdentity.id
+//     // httpsOnly: true
+//     // virtualNetworkSubnetId: appServiceSubnet.id
+//     siteConfig: {
+//       powerShellVersion: '7.2'
+//       appSettings: [
+//         {
+//           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+//           value: appInsights.properties.InstrumentationKey
+//         }
+//         {
+//           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+//           value: appInsights.properties.ConnectionString
+//         }
+//         {
+//           name: 'ApplicationInsightsAgent_EXTENSION_VERSION'
+//           value: '~3'
+//         }
+//         {
+//           name: 'XDT_MicrosoftApplicationInsights_Mode'
+//           value: 'Recommended'
+//         }
+//         // {
+//         //   name: 'ServiceBusConnection__fullyQualifiedNamespace'
+//         //   value: '${serviceBusNamespace.name}.servicebus.windows.net'
+//         // }
+//         {
+//           name: 'ServiceBusConnection__credential'
+//           value: 'managedIdentity'
+//         }
+//         // {
+//         //   name: 'ServiceBusConnection__clientId'
+//         //   value: managedIdentity.properties.clientId
+//         // }
+//         // {
+//         //   name: 'AzureAdClientId'
+//         //   value: '@Microsoft.KeyVault(VaultName=${keyVault.name};SecretName=${functionAADServicePrincipalClientIdSecretName})'
+//         // }
+//         // {
+//         //   name: 'AzureAdClientSecret'
+//         //   value: '@Microsoft.KeyVault(VaultName=${keyVault.name};SecretName=${functionAADServicePrincipalClientSecretSecretName})'
+//         // }
+//         {
+//           name: 'AzureAdTenantId'
+//           value: subscription().tenantId
+//         }
+//         {
+//           name: 'AzureWebJobsStorage'
+//           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+//         }
+//         {
+//           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
+//           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+//         }
+//         {
+//           name: 'WEBSITE_CONTENTSHARE'
+//           value: toLower(todoFunctionAppName)
+//         }
+//         {
+//           name: 'FUNCTIONS_EXTENSION_VERSION'
+//           value: '~4'
+//         }
+//         {
+//           name: 'FUNCTIONS_WORKER_RUNTIME'
+//           value: 'powershell'
+//         }
+//         {
+//           name: 'WEBSITE_RUN_FROM_PACKAGE'
+//           value: '1'
+//         }
+//       ]
+//     }
+//   }
+// }
 
 resource todoAppDiagnosticSettings 'Microsoft.Insights/diagnosticsettings@2017-05-01-preview' = {
   name: 'Logging'
-  scope: provisionTeamsFunctionApp
+  scope: todoFunctionApp
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     logs: [
