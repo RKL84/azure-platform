@@ -37,7 +37,7 @@ stages:
     jobs:
       - template: /.azuredevops/pipeline-templates/jobs.validateTemplatePester.yml
         parameters:
-          templateFilePath: $(Build.SourcesDirectory)/deploy
+          templateFilePath: $(Build.SourcesDirectory)/infra
 
   - stage: 'Dev'
     displayName: 'Deploy to the dev environment'
