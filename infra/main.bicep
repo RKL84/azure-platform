@@ -95,7 +95,7 @@ module shared './shared/shared.bicep' = {
   }
 }
 
-module appServicePlan './ase.bicep' = {
+module appServicePlan './asp.bicep' = {
   name: 'appservicePlan-Deployment'
   scope: resourceGroup(backendRG.name)
   params: {
@@ -115,5 +115,18 @@ module apim './apim.bicep' = {
     appInsightsName: shared.outputs.appInsightsName
     appInsightsId: shared.outputs.appInsightsId
     appInsightsInstrumentationKey: shared.outputs.appInsightsInstrumentationKey
+  }
+}
+
+module backend './backend.bicep' = {
+  name: 'backend-Deployment'
+  scope: resourceGroup(apimRG.name)
+  params: {
+    location: location
+    naming: naming.outputs.names
+    tags: defaultTags
+    appInsightsName: shared.outputs.appInsightsName
+    appServicePlanName: appServicePlan.outputs.appServicePlanName
+    storageAccountName: shared.outputs.storageAccountName
   }
 }
