@@ -42,9 +42,9 @@ resource todoFunctionApp 'Microsoft.Web/sites@2018-11-01' = {
   name: todoFunctionAppName
   location: location
   tags: tags
-  kind: 'functionapp,linux'
+  kind: 'functionapp'
   properties: {
-    enabled: true
+    // enabled: true
     // hostNameSslStates: [
     //   {
     //     name: sites_funcappAPIMCSBackendMicroServiceA_siteHostname
@@ -58,12 +58,12 @@ resource todoFunctionApp 'Microsoft.Web/sites@2018-11-01' = {
     //   }
     // ]
     serverFarmId: appServicePlan.id
-    reserved: true
+    reserved: false
     isXenon: false
     hyperV: false
     siteConfig: {
       numberOfWorkers: 1
-      linuxFxVersion: 'dotnet|3.1'
+      netFrameworkVersion: 'v6.0'
       alwaysOn: true
       http20Enabled: false
       appSettings: [
@@ -85,7 +85,7 @@ resource todoFunctionApp 'Microsoft.Web/sites@2018-11-01' = {
         }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
-          value: '~3'
+          value: '~4'
         }
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
