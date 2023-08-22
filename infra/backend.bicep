@@ -64,7 +64,7 @@ resource todoFunctionApp 'Microsoft.Web/sites@2018-11-01' = {
     siteConfig: {
       numberOfWorkers: 1
       netFrameworkVersion: 'v6.0'
-      alwaysOn: true
+      // alwaysOn: true
       http20Enabled: false
       appSettings: [
         {
